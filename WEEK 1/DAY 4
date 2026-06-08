@@ -1,0 +1,78 @@
+Matrix Diagonal Sum
+// Add both diagonals, avoid double counting center
+class Solution {
+public:
+    int diagonalSum(vector<vector<int>>& mat) {
+        int n = mat.size();
+        int sum = 0;
+
+        for(int i = 0; i < n; i++) {
+            sum += mat[i][i];
+            sum += mat[i][n-i-1];
+        }
+
+        if(n % 2 == 1)
+            sum -= mat[n/2][n/2];
+
+        return sum;
+    }
+};
+11. Reshape Matrix
+// Flatten matrix then rebuild
+class Solution {
+public:
+    vector<vector<int>> matrixReshape(vector<vector<int>>& mat, int r, int c) {
+        vector<int> flat;
+
+        for(auto &row : mat)
+            for(int x : row)
+                flat.push_back(x);
+
+        if(flat.size() != r * c)
+            return mat;
+
+        vector<vector<int>> res(r, vector<int>(c));
+
+        for(int i = 0; i < flat.size(); i++) {
+            res[i / c][i % c] = flat[i];
+        }
+
+        return res;
+    }
+};
+12. Spiral Matrix
+// Move boundary pointers layer by layer
+class Solution {
+public:
+    vector<int> spiralOrder(vector<vector<int>>& matrix) {
+        vector<int> res;
+
+        int top = 0, bottom = matrix.size()-1;
+        int left = 0, right = matrix[0].size()-1;
+
+        while(top <= bottom && left <= right) {
+
+            for(int i = left; i <= right; i++)
+                res.push_back(matrix[top][i]);
+            top++;
+
+            for(int i = top; i <= bottom; i++)
+                res.push_back(matrix[i][right]);
+            right--;
+
+            if(top <= bottom) {
+                for(int i = right; i >= left; i--)
+                    res.push_back(matrix[bottom][i]);
+                bottom--;
+            }
+
+            if(left <= right) {
+                for(int i = bottom; i >= top; i--)
+                    res.push_back(matrix[i][left]);
+                left++;
+            }
+        }
+
+        return res;
+    }
+};
