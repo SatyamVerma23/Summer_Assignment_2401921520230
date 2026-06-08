@@ -1,0 +1,57 @@
+1. Two Sum
+// We use hashmap to store index of each number
+// and check if (target - current) exists
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        unordered_map<int,int> mp;
+
+        for(int i = 0; i < nums.size(); i++) {
+            int diff = target - nums[i];
+
+            if(mp.find(diff) != mp.end()) {
+                return {mp[diff], i};
+            }
+
+            mp[nums[i]] = i;
+        }
+
+        return {};
+    }
+};
+2. Remove Duplicates from Sorted Array
+// Two pointer approach
+// i scans array, j stores position of unique elements
+class Solution {
+public:
+    int removeDuplicates(vector<int>& nums) {
+        if(nums.size() == 0) return 0;
+
+        int j = 1;
+
+        for(int i = 1; i < nums.size(); i++) {
+            if(nums[i] != nums[i-1]) {
+                nums[j] = nums[i];
+                j++;
+            }
+        }
+
+        return j;
+    }
+};
+3. Best Time to Buy and Sell Stock
+// Track minimum price so far and best profit
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int minPrice = INT_MAX;
+        int profit = 0;
+
+        for(int price : prices) {
+            minPrice = min(minPrice, price);
+            profit = max(profit, price - minPrice);
+        }
+
+        return profit;
+    }
+};
